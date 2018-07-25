@@ -37,3 +37,26 @@ clos()
 def areaSquare = { it * it }
 println areaSquare(4)
 // This closure makes usage of the implicit parameter it and the optional return statement.
+
+def transform = {str, transformation ->
+    transformation(str)
+}
+
+println transform("Hello World!", {it.toUpperCase() })
+println transform("Hello World!") {it.toUpperCase() }
+// due to syntactic sugar, these things are the same
+
+// CLOSING OF VARIABLES
+// Closures have access to the variables in the context they were defined.
+def createGreeter = { name ->
+    return {
+        def day = new Date().getDay()
+        if(day==0 || day==6) {
+            println "Nice weekend, $name"
+        } else {
+            println "Hello, $name"
+        }
+    }
+}
+def greetWorld = createGreeter("World")
+greetWorld()
